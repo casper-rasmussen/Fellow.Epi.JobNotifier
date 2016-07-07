@@ -13,7 +13,7 @@ By default, notifications are sent to all users part of a "NotificationUsers" gr
 
 ## Configuration
 
-It is possible to adjust the Notification behaviour, recipient, sender and content by extending or intercepting existing IJobNotificationManager.
+It is possible to adjust the Notification behaviour, recipient, sender and content by replacing or intercepting existing implemetation of IJobNotificationManager.
 
 ```
 public interface IJobNotificationManager

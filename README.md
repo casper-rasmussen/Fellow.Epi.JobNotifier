@@ -1,6 +1,6 @@
-# Fellow.Epi.JobNotifier: Real-time notifications about failed Scheduled Jobs
+# Fellow.Epi.JobNotifier: Real-time notifications about failing Scheduled Jobs
 
-Provides Administrators with real-time updates via Episervers notification system. It acts as the channel for communication between failing scheduled jobs and the Episerver User Notification System.
+Provides Administrators with real-time updates via Episervers notification system. It acts as the channel for communication between failing Scheduled Jobs and the Episerver User Notification System.
 
 ## Installation and Usage
 

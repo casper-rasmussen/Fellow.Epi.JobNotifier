@@ -6,10 +6,13 @@ using EPiServer.Notification;
 using Fellow.Epi.JobNotifier.Infrastructure.Formatter;
 using Fellow.Epi.JobNotifier.Manager.JobNotification;
 using Fellow.Epi.JobNotifier.Manager.JobNotification.Entity;
+using EPiServer.DataAbstraction.Internal;
+using EPiServer.DataAccess.Internal;
+using EPiServer.ServiceLocation;
 
 namespace Fellow.Epi.JobNotifier.Infrastructure
 {
-	class NotifiedScheduledJobStatusService : ScheduledJobRepository, IScheduledJobStatusService
+	class NotifiedScheduledJobStatusService : DefaultScheduledJobRepository, IScheduledJobStatusService
 	{
 		private readonly INotifier _notifier;
 		private readonly IScheduledJobRepository _scheduledJobRepository;
@@ -17,7 +20,8 @@ namespace Fellow.Epi.JobNotifier.Infrastructure
 		private readonly IJobNotificationManager _jobNotificationManager;
 		private readonly ILogger _logger;
 
-		public NotifiedScheduledJobStatusService(INotifier notifier, IScheduledJobRepository scheduledJobRepository, IScheduledJobNotificationFormatter formatter, IJobNotificationManager jobNotificationManager, ILogger logger)
+		public NotifiedScheduledJobStatusService(INotifier notifier, IScheduledJobRepository scheduledJobRepository, IScheduledJobNotificationFormatter formatter, IJobNotificationManager jobNotificationManager, ILogger logger, ServiceAccessor<SchedulerDB> db)
+			: base(db)
 		{
 			this._notifier = notifier;
 			this._scheduledJobRepository = scheduledJobRepository;
@@ -26,15 +30,16 @@ namespace Fellow.Epi.JobNotifier.Infrastructure
 			this._logger = logger;
 		}
 
-		public override void ReportExecutedJob(Guid id, bool success, string message)
+		public override void ReportExecutedJob(Guid id, ScheduledJobLogItem status)
 		{
-			base.ReportExecutedJob(id, success, message);
+
+			base.ReportExecutedJob(id, status);
 
 			ScheduledJob executedJob = this._scheduledJobRepository.Get(id);
 
 			INotification notification;
 
-			bool found = this._jobNotificationManager.TryGet(executedJob, success, message, out notification);
+			bool found = this._jobNotificationManager.TryGet(executedJob, status.Succeeded, status.Message, out notification);
 
 
 			if (found)

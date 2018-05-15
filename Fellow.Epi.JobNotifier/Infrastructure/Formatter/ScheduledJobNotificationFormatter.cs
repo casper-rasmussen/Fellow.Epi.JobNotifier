@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using EPiServer.Notification;
 
 namespace Fellow.Epi.JobNotifier.Infrastructure.Formatter
@@ -19,7 +20,9 @@ namespace Fellow.Epi.JobNotifier.Infrastructure.Formatter
 			}
 		}
 
-		/// <summary>
+	   
+
+	    /// <summary>
 		///     Specifies which channels the formatter supports.
 		/// </summary>
 		/// <value>The supported channel names.</value>
@@ -59,5 +62,14 @@ namespace Fellow.Epi.JobNotifier.Infrastructure.Formatter
 
 			return notification;
 		}
-	}
+	    public Task<IEnumerable<FormatterNotificationMessage>> FormatMessagesAsync(IEnumerable<FormatterNotificationMessage> notifications, string recipient, NotificationFormat format, string channelName)
+	    {
+	        return Task.FromResult(FormatMessages(notifications, recipient, format, channelName));
+	    }
+
+	    public Task<UserNotificationMessage> FormatUserMessageAsync(UserNotificationMessage notification)
+	    {
+	        return Task.FromResult(FormatUserMessage(notification));
+	    }
+    }
 }

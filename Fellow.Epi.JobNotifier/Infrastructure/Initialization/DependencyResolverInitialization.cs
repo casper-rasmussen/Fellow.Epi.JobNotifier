@@ -1,4 +1,5 @@
-﻿using EPiServer.Framework;
+﻿using EPiServer.Cms.Shell;
+using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
 using Fellow.Epi.JobNotifier.Bootstrapper;
@@ -7,12 +8,12 @@ using StructureMap;
 namespace Fellow.Epi.JobNotifier.Infrastructure.Initialization
 {
 	[InitializableModule]
-	[ModuleDependency(typeof(EPiServer.Web.InitializationModule))]
+	[ModuleDependency(typeof(InitializableModule))]
 	public class DependencyResolverInitialization : IConfigurableModule
 	{
 		public void ConfigureContainer(ServiceConfigurationContext context)
 		{
-			context.Container.Configure(ConfigureContainer);
+			context.StructureMap().Configure(ConfigureContainer);
 		}
 
 		private static void ConfigureContainer(ConfigurationExpression container)

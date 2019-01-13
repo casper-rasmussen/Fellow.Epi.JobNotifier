@@ -3,7 +3,7 @@ using EPiServer.Notification;
 using Fellow.Epi.JobNotifier.Infrastructure;
 using Fellow.Epi.JobNotifier.Infrastructure.Formatter;
 using Fellow.Epi.JobNotifier.Manager.JobNotification;
-using StructureMap.Configuration.DSL;
+using StructureMap;
 
 namespace Fellow.Epi.JobNotifier.Bootstrapper
 {
@@ -18,7 +18,6 @@ namespace Fellow.Epi.JobNotifier.Bootstrapper
 			this.For<IScheduledJobNotificationFormatter>().Use<ScheduledJobNotificationFormatter>();
 
 			//Episerver overrides
-			this.For<IScheduledJobStatusService>().Use<NotifiedScheduledJobStatusService>();
 			this.For<IUserNotificationFormatter>().Add<ScheduledJobNotificationFormatter>();
 			this.For<INotificationFormatter>().Add<ScheduledJobNotificationFormatter>();
 		}

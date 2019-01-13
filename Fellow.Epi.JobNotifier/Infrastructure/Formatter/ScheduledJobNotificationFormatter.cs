@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using EPiServer.Notification;
 
 namespace Fellow.Epi.JobNotifier.Infrastructure.Formatter
@@ -30,34 +32,20 @@ namespace Fellow.Epi.JobNotifier.Infrastructure.Formatter
 				return new[] { this.ChannelName };
 			}
 		}
+        
+        public Task<IEnumerable<FormatterNotificationMessage>> FormatMessagesAsync(IEnumerable<FormatterNotificationMessage> notifications, string recipient, NotificationFormat format, string channelName)
+        {
+            return Task.FromResult(notifications);
+        }
 
-		/// <summary>
-		///     Performs formatting of messages.
-		/// </summary>
-		/// <param name="notifications">Messages to format</param>
-		/// <param name="recipient">The receiver of the message</param>
-		/// <param name="format">The format to format to</param>
-		/// <param name="channelName">The message channel</param>
-		/// <returns>A list of formatted messages</returns>
-		/// <remarks>One use case for a formatter might be to combine several messages into one.</remarks>
-		public IEnumerable<FormatterNotificationMessage> FormatMessages(IEnumerable<FormatterNotificationMessage> notifications, string recipient, NotificationFormat format, string channelName)
-		{
-			return notifications;
-		}
+        public Task<UserNotificationMessage> FormatUserMessageAsync(UserNotificationMessage notification)
+        {
+            if (notification != null)
+            {
+                notification.Content = "<div style=\"color:#f7542b\">" + notification.Content + "</div>";
+            }
 
-		/// <summary>
-		///     Formats the user message.
-		/// </summary>
-		/// <param name="notification">The notification.</param>
-		/// <returns>UserNotificationMessage.</returns>
-		public UserNotificationMessage FormatUserMessage(UserNotificationMessage notification)
-		{
-			if (notification != null)
-			{
-				notification.Content = "<div style=\"color:#f7542b\">" + notification.Content + "</div>";
-			}
-
-			return notification;
-		}
-	}
+            return Task.FromResult(notification);
+        }
+    }
 }

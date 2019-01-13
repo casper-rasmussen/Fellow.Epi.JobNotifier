@@ -12,7 +12,7 @@ namespace Fellow.Epi.JobNotifier.Infrastructure.Initialization
 	{
 		public void ConfigureContainer(ServiceConfigurationContext context)
 		{
-			context.Container.Configure(ConfigureContainer);
+			context.StructureMap().Configure(ConfigureContainer);
 		}
 
 		private static void ConfigureContainer(ConfigurationExpression container)
